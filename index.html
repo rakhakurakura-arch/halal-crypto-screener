@@ -212,7 +212,7 @@
 
     document.getElementById('closeModalBtn').addEventListener('click', hideModal);
     document.getElementById('premiumModal').addEventListener('click', (e) => { if (e.target === document.getElementById('premiumModal')) hideModal(); });
-    document.getElementById('subscribeBtn').addEventListener('click', () => { window.open(PAYMENT_LINK, '_blank'); });
+    document.getElementById('subscribeBtn').addEventListener('click', () => { window.location.href = PAYMENT_LINK; });
 
     function getScoreColorClass(score) {
         if (score >= 70) return 'score-green';
