@@ -840,13 +840,18 @@
                 return;
             }
 
-            // freemium logic: 10 pertama gratis, sisanya locked
-            const visibleCount = Math.min(FREE_LIMIT, filtered.length);
-            displayCountSpan.innerText = visibleCount;  
+            // freemium logic: ID 1-10 gratis, sisanya locked
+            let lockedCount = 0;
+            let visibleFreeCount = 0;
 
             // loop untuk membuat card
             filtered.forEach((coin, idx) => {
-                const isLocked = (idx >= FREE_LIMIT);
+                const isLocked = coin.id > FREE_LIMIT;
+                if (isLocked) {
+                    lockedCount++;
+                } else {
+                    visibleFreeCount++;
+                }
                 const cardElement = createCoinCard(coin, idx, isLocked);
                 coinsContainer.appendChild(cardElement);
 
@@ -854,8 +859,10 @@
                 loadCoinLogo(coin.symbol, `logo-${coin.symbol}-${idx}`);
             });
 
+            displayCountSpan.innerText = visibleFreeCount;  
+
             // tambahkan catatan kecil jika ada coin premium terkunci
-            if (filtered.length > FREE_LIMIT) {
+            if (lockedCount > 0) {
                 const premiumNote = document.createElement('div');
                 premiumNote.style.gridColumn = '1/-1';
                 premiumNote.style.textAlign = 'center';
@@ -865,7 +872,7 @@
                 premiumNote.style.padding = '10px';
                 premiumNote.style.borderRadius = '60px';
                 premiumNote.style.border = '1px solid #D4AF37';
-                premiumNote.innerHTML = `🔔 ${filtered.length - FREE_LIMIT} coin tambahan terkunci. ✨ <a href="#" onclick="showModal()" style="color:#D4AF37; font-weight:bold; text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh & analisis mendalam.`;
+                premiumNote.innerHTML = `🔔 ${lockedCount} coin tambahan terkunci. ✨ <a href="#" onclick="showModal()" style="color:#D4AF37; font-weight:bold; text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh & analisis mendalam.`;
                 coinsContainer.appendChild(premiumNote);
             }
         }
