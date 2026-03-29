@@ -212,7 +212,15 @@
 
     document.getElementById('closeModalBtn').addEventListener('click', hideModal);
     document.getElementById('premiumModal').addEventListener('click', (e) => { if (e.target === document.getElementById('premiumModal')) hideModal(); });
-    document.getElementById('subscribeBtn').addEventListener('click', () => { window.location.href = PAYMENT_LINK; });
+    document.getElementById('subscribeBtn').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = PAYMENT_LINK;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+});
 
     function getScoreColorClass(score) {
         if (score >= 70) return 'score-green';
