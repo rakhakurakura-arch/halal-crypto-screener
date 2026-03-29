@@ -1,920 +1,340 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Halal Crypto Screener | Investasi Crypto Syariah</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #0A0F0A;
-            font-family: 'Inter', sans-serif;
-            color: #E9F5E9;
-            line-height: 1.5;
-            padding: 1.5rem;
-        }
-
-        /* container utama */
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* header islami dengan aksen gold */
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding-bottom: 1.5rem;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .crescent-icon {
-            font-size: 2.5rem;
-        }
-
-        .title h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #D4AF37 0%, #F5E7A3 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-
-        .tagline {
-            color: #A3C9A3;
-            font-size: 0.9rem;
-            margin-top: 6px;
-            font-weight: 400;
-        }
-
-        /* Statistik Header */
-        .header-stats {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: #111A11;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid #2D4A2D;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #0A0F0A; font-family: 'Inter', sans-serif; color: #E9F5E9; line-height: 1.5; padding: 1.5rem; }
+        .app-container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 1.5rem; }
+        .logo-area { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .crescent-icon { font-size: 2.5rem; }
+        .title h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #D4AF37 0%, #F5E7A3 100%); background-clip: text; -webkit-background-clip: text; color: transparent; letter-spacing: -0.3px; }
+        .tagline { color: #A3C9A3; font-size: 0.9rem; margin-top: 6px; font-weight: 400; }
+        .header-stats { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .stat-box { background: #111A11; padding: 10px 20px; border-radius: 20px; border: 1px solid #2D4A2D; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .stat-number { font-size: 1.2rem; font-weight: bold; }
         .stat-halal .stat-number { color: #9BDF9B; }
         .stat-haram .stat-number { color: #FF8A7A; }
         .stat-ragu .stat-number { color: #FFD966; }
-
-        /* search & filter bar */
-        .filter-section {
-            background: #111A11;
-            border-radius: 28px;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2A3A2A;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .search-wrapper {
-            margin-bottom: 1rem;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 14px 20px;
-            background: #0A0F0A;
-            border: 1px solid #2D4A2D;
-            border-radius: 48px;
-            font-size: 1rem;
-            color: #F0F7F0;
-            font-family: 'Inter', monospace;
-            transition: all 0.2s;
-        }
-
-        #searchInput:focus {
-            outline: none;
-            border-color: #D4AF37;
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
-        }
-
-        .filter-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .status-btn {
-            background: transparent;
-            border: 1px solid #2D4A2D;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: #C5E0C5;
-            transition: all 0.2s;
-        }
-
-        .status-btn.active {
-            background: #D4AF37;
-            border-color: #D4AF37;
-            color: #0A1F0A;
-            font-weight: 700;
-        }
-
-        .category-select {
-            background: #0A0F0A;
-            border: 1px solid #2D4A2D;
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: #E9F5E9;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* stats info */
-        .stats-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-            color: #C2D4B0;
-            background: #0E150E;
-            padding: 8px 16px;
-            border-radius: 32px;
-        }
-
-        /* grid card */
-        .coins-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.8rem;
-            margin-top: 0.5rem;
-        }
-
-        /* card styling + animasi fade in */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .coin-card {
-            background: #132013;
-            border-radius: 28px;
-            padding: 1.2rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #2A3C2A;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
-            position: relative;
-            backdrop-filter: blur(0px);
-            opacity: 0; /* awal untuk animasi fade in */
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .coin-card:hover {
-            transform: translateY(-4px);
-            border-color: #D4AF37;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.5);
-            z-index: 2;
-        }
-
-        /* premium locked blur + overlay */
-        .coin-card.locked {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .coin-card.locked .card-content {
-            filter: blur(5px);
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .premium-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(2px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 10;
-            border-radius: 28px;
-        }
-
-        .premium-btn {
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            border: none;
-            padding: 10px 24px;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: #0A1F0A;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .premium-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #E5C458, #C9A022);
-        }
-
-        .premium-text {
-            color: #FFE6A3;
-            font-weight: 600;
-            font-size: 0.8rem;
-            background: #00000066;
-            padding: 4px 12px;
-            border-radius: 60px;
-        }
-
-        /* logo coin */
-        .coin-logo {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(145deg, #2C402C, #1C2A1C);
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: #D4AF37;
-            border: 1px solid #D4AF37;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 16px;
-        }
-
-        .coin-info h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-        }
-
-        .coin-symbol {
-            font-size: 0.7rem;
-            background: #2A382A;
-            padding: 2px 8px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-top: 4px;
-            color: #CFE6CF;
-        }
-
-        .score-badge {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin: 12px 0;
-        }
-
-        .halal-score {
-            font-weight: 800;
-            font-size: 1.4rem;
-            background: #1E2E1E;
-            padding: 4px 12px;
-            border-radius: 60px;
-            display: inline-block;
-        }
-
-        .score-green {
-            color: #9BDF9B;
-            border-left: 3px solid #2F9E44;
-            background: #1F2C1F;
-            padding-left: 12px;
-        }
-
-        .score-yellow {
-            color: #FFD966;
-            border-left: 3px solid #FFB347;
-        }
-
-        .score-red {
-            color: #FF8A7A;
-            border-left: 3px solid #E03A3A;
-        }
-
-        .badge-status {
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 60px;
-            background: #1F2A1F;
-        }
-
-        .badge-halal {
-            background: #1D4A1D;
-            color: #B8F2B8;
-        }
-
-        .badge-haram {
-            background: #631C1C;
-            color: #FFB4B4;
-        }
-
-        .badge-ragu {
-            background: #7A5A1A;
-            color: #FFE2A3;
-        }
-
-        .category-chip {
-            font-size: 0.7rem;
-            background: #2A352A;
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin: 8px 0;
-            width: fit-content;
-        }
-
-        .reason-text {
-            font-size: 0.75rem;
-            color: #BED6BE;
-            margin: 8px 0;
-            line-height: 1.4;
-        }
-
-        .fatwa-ref {
-            font-size: 0.7rem;
-            font-style: italic;
-            color: #D4AF37;
-            border-top: 1px dashed #2E462E;
-            margin-top: 8px;
-            padding-top: 8px;
-        }
-
-        /* Modal Premium */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.show {
-            display: flex;
-            animation: fadeInModal 0.3s ease-out forwards;
-        }
-
-        @keyframes fadeInModal {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-content {
-            background: #132013;
-            border: 1px solid #D4AF37;
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            color: #A3C9A3;
-            font-size: 1.8rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .close-modal:hover {
-            color: #FFF;
-            transform: scale(1.1);
-        }
-
-        .modal-title {
-            color: #D4AF37;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .modal-desc {
-            color: #A3C9A3;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .modal-benefits {
-            text-align: left;
-            margin-bottom: 2rem;
-            color: #E9F5E9;
-            font-size: 0.95rem;
-            padding-left: 0.5rem;
-            list-style: none; /* remove default bullets */
-        }
-        
-        .modal-benefits li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-price {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #D4AF37;
-            margin-bottom: 1.5rem;
-            background: #0A0F0A;
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid #2D4A2D;
-        }
-
-        .modal-price span {
-            font-size: 1rem;
-            font-weight: normal;
-            color: #A3C9A3;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            font-size: 0.75rem;
-            color: #7A8F7A;
-            border-top: 1px solid #1F2E1F;
-            padding-top: 1.8rem;
-        }
-
+        .filter-section { background: #111A11; border-radius: 28px; padding: 1.2rem 1.5rem; margin-bottom: 2rem; border: 1px solid #2A3A2A; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .search-wrapper { margin-bottom: 1rem; }
+        #searchInput { width: 100%; padding: 14px 20px; background: #0A0F0A; border: 1px solid #2D4A2D; border-radius: 48px; font-size: 1rem; color: #F0F7F0; font-family: 'Inter', monospace; transition: all 0.2s; }
+        #searchInput:focus { outline: none; border-color: #D4AF37; box-shadow: 0 0 0 2px rgba(212,175,55,0.3); }
+        .filter-group { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+        .filter-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .status-btn { background: transparent; border: 1px solid #2D4A2D; padding: 8px 18px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #C5E0C5; transition: all 0.2s; }
+        .status-btn.active { background: #D4AF37; border-color: #D4AF37; color: #0A1F0A; font-weight: 700; }
+        .category-select { background: #0A0F0A; border: 1px solid #2D4A2D; padding: 8px 20px; border-radius: 40px; color: #E9F5E9; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .stats-info { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.85rem; color: #C2D4B0; background: #0E150E; padding: 8px 16px; border-radius: 32px; }
+        .coins-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.8rem; margin-top: 0.5rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .coin-card { background: #132013; border-radius: 28px; padding: 1.2rem; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #2A3C2A; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.4); position: relative; opacity: 0; animation: fadeIn 0.6s ease-out forwards; }
+        .coin-card:hover { transform: translateY(-4px); border-color: #D4AF37; box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5); z-index: 2; }
+        .coin-card.locked { overflow: hidden; }
+        .coin-card.locked .card-content { filter: blur(5px); pointer-events: none; user-select: none; }
+        .premium-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; z-index: 10; border-radius: 28px; }
+        .premium-btn { background: linear-gradient(135deg, #D4AF37, #B8860B); border: none; padding: 10px 24px; border-radius: 60px; font-weight: 800; font-size: 0.9rem; color: #0A1F0A; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: 0.2s; font-family: 'Inter', sans-serif; }
+        .premium-btn:hover { transform: scale(1.05); background: linear-gradient(135deg, #E5C458, #C9A022); }
+        .premium-text { color: #FFE6A3; font-weight: 600; font-size: 0.8rem; background: #00000066; padding: 4px 12px; border-radius: 60px; }
+        .coin-logo { width: 52px; height: 52px; background: linear-gradient(145deg, #2C402C, #1C2A1C); border-radius: 60px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem; color: #D4AF37; border: 1px solid #D4AF37; box-shadow: 0 4px 10px rgba(0,0,0,0.2); overflow: hidden; }
+        .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+        .coin-info h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.2px; }
+        .coin-symbol { font-size: 0.7rem; background: #2A382A; padding: 2px 8px; border-radius: 30px; display: inline-block; margin-top: 4px; color: #CFE6CF; }
+        .score-badge { display: flex; justify-content: space-between; align-items: baseline; margin: 12px 0; }
+        .halal-score { font-weight: 800; font-size: 1.1rem; padding: 4px 12px; border-radius: 60px; display: inline-block; }
+        .score-green { color: #9BDF9B; border-left: 3px solid #2F9E44; background: #1F2C1F; padding-left: 12px; }
+        .score-yellow { color: #FFD966; border-left: 3px solid #FFB347; background: #2A2010; }
+        .score-red { color: #FF8A7A; border-left: 3px solid #E03A3A; background: #2A1010; }
+        .badge-status { font-weight: 700; font-size: 0.75rem; padding: 4px 12px; border-radius: 60px; }
+        .badge-halal { background: #1D4A1D; color: #B8F2B8; }
+        .badge-haram { background: #631C1C; color: #FFB4B4; }
+        .badge-ragu { background: #7A5A1A; color: #FFE2A3; }
+        .category-chip { font-size: 0.7rem; background: #2A352A; display: inline-block; padding: 2px 10px; border-radius: 20px; margin: 8px 0; width: fit-content; }
+        .reason-text { font-size: 0.75rem; color: #BED6BE; margin: 8px 0; line-height: 1.4; }
+        .fatwa-ref { font-size: 0.7rem; font-style: italic; color: #D4AF37; border-top: 1px dashed #2E462E; margin-top: 8px; padding-top: 8px; }
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+        .modal.show { display: flex; }
+        .modal-content { background: #132013; border: 1px solid #D4AF37; border-radius: 24px; padding: 2.5rem 2rem; width: 90%; max-width: 420px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        .close-modal { position: absolute; top: 15px; right: 20px; color: #A3C9A3; font-size: 1.8rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: #FFF; transform: scale(1.1); }
+        .modal-title { color: #D4AF37; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700; }
+        .modal-desc { color: #A3C9A3; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        .modal-benefits { text-align: left; margin-bottom: 2rem; color: #E9F5E9; font-size: 0.95rem; padding-left: 0.5rem; list-style: none; }
+        .modal-benefits li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .modal-price { font-size: 1.8rem; font-weight: 800; color: #D4AF37; margin-bottom: 1.5rem; background: #0A0F0A; padding: 10px; border-radius: 12px; border: 1px solid #2D4A2D; }
+        .modal-price span { font-size: 1rem; font-weight: normal; color: #A3C9A3; }
+        .subscribe-btn { width: 100%; font-size: 1.1rem; padding: 14px; background: linear-gradient(135deg, #D4AF37, #B8860B); border: none; border-radius: 60px; font-weight: 800; color: #0A1F0A; cursor: pointer; font-family: 'Inter', sans-serif; transition: 0.2s; }
+        .subscribe-btn:hover { transform: scale(1.02); background: linear-gradient(135deg, #E5C458, #C9A022); }
+        footer { text-align: center; margin-top: 3rem; font-size: 0.75rem; color: #7A8F7A; border-top: 1px solid #1F2E1F; padding-top: 1.8rem; }
         @media (max-width: 640px) {
-            body {
-                padding: 1rem;
-            }
-
-            .header-stats {
-                gap: 0.8rem;
-            }
-
-            .stat-box {
-                flex: 1 1 30%;
-                justify-content: center;
-                flex-direction: column;
-                padding: 10px 5px;
-                text-align: center;
-                gap: 4px;
-            }
-
-            .filter-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .filter-buttons {
-                justify-content: center;
-            }
-
-            .status-btn {
-                flex: 1;
-                text-align: center;
-            }
-
-            .stats-info {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-
-            .title h1 {
-                font-size: 1.4rem;
-            }
+            body { padding: 1rem; }
+            .header-stats { gap: 0.8rem; }
+            .stat-box { flex: 1 1 30%; justify-content: center; flex-direction: column; padding: 10px 5px; text-align: center; gap: 4px; }
+            .filter-group { flex-direction: column; align-items: stretch; }
+            .filter-buttons { justify-content: center; }
+            .status-btn { flex: 1; text-align: center; }
+            .stats-info { flex-direction: column; gap: 10px; text-align: center; }
+            .title h1 { font-size: 1.4rem; }
         }
     </style>
 </head>
-
 <body>
-    <div class="app-container">
-        <!-- Header islami -->
-        <div class="header">
-            <div class="logo-area">
-                <div class="crescent-icon">☪️</div>
-                <div class="title">
-                    <h1>Halal Crypto Screener</h1>
-                    <div class="tagline">Investasi Crypto Sesuai Syariah · Fatwa Berbasis DSN-MUI & Muhammadiyah</div>
-                </div>
-            </div>
-            
-            <!-- Statistik Header -->
-            <div class="header-stats">
-                <div class="stat-box stat-halal">
-                    <span class="stat-number" id="statHalal">0</span> Halal
-                </div>
-                <div class="stat-box stat-haram">
-                    <span class="stat-number" id="statHaram">0</span> Haram
-                </div>
-                <div class="stat-box stat-ragu">
-                    <span class="stat-number" id="statRagu">0</span> Dikaji
-                </div>
+<div class="app-container">
+    <div class="header">
+        <div class="logo-area">
+            <div class="crescent-icon">☪️</div>
+            <div class="title">
+                <h1>Halal Crypto Screener</h1>
+                <div class="tagline">Investasi Crypto Sesuai Syariah · Fatwa Berbasis DSN-MUI & Muhammadiyah</div>
             </div>
         </div>
-
-        <!-- Search & Filter Bar -->
-        <div class="filter-section">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput"
-                    placeholder="🔍 Cari coin berdasarkan nama atau simbol... (misal: Bitcoin, ETH, SOL)">
-            </div>
-            <div class="filter-group">
-                <div class="filter-buttons" id="statusFilterGroup">
-                    <button data-status="all" class="status-btn active">📋 Semua</button>
-                    <button data-status="Halal" class="status-btn">✅ Halal</button>
-                    <button data-status="Haram" class="status-btn">❌ Haram</button>
-                    <button data-status="Perlu Dikaji" class="status-btn">⚠️ Perlu Dikaji</button>
-                </div>
-                <select id="categorySelect" class="category-select">
-                    <option value="all">📂 Semua Kategori</option>
-                    <option value="Utility Token">⚙️ Utility Token</option>
-                    <option value="DeFi">💧 DeFi</option>
-                    <option value="NFT">🎨 NFT</option>
-                    <option value="Stablecoin">💰 Stablecoin</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- info statistik & premium gate info -->
-        <div class="stats-info" id="statsInfo">
-            <span>📊 Menampilkan <span id="displayCount">0</span> dari <span id="totalFiltered">0</span> coin</span>
-            <span>✨ <strong>10 coin pertama gratis</strong> — Premium unlock Rp149.000/bulan</span>
-        </div>
-
-        <!-- Grid container untuk card -->
-        <div id="coinsContainer" class="coins-grid"></div>
-        <footer>
-            ⚖️ Berdasarkan prinsip syariah & referensi fatwa DSN-MUI No.117/2020, fatwa Muhammadiyah. Bukan nasihat
-            keuangan. Selalu konsultasi dengan ahli.
-        </footer>
-    </div>
-
-    <!-- Modal Premium -->
-    <div id="premiumModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModalBtn">&times;</span>
-            <div class="modal-title">💎 Akses Premium</div>
-            <div class="modal-desc">Buka akses penuh ke seluruh coin, analisa mendalam, dan sinyal trading yang sesuai syariah.</div>
-            
-            <ul class="modal-benefits">
-                <li><span>✅</span> Buka semua coin yang terkunci</li>
-                <li><span>✅</span> Analisis Fundamental & Fatwa Detail</li>
-                <li><span>✅</span> Sinyal Trading Harian Syariah</li>
-                <li><span>✅</span> Konsultasi Portofolio Eksklusif</li>
-            </ul>
-
-            <div class="modal-price">Rp 149.000 <span>/ bulan</span></div>
-            <button class="premium-btn" style="width: 100%; font-size: 1.1rem; padding: 14px;">Langganan Sekarang</button>
+        <div class="header-stats">
+            <div class="stat-box stat-halal"><span class="stat-number" id="statHalal">0</span> Halal</div>
+            <div class="stat-box stat-haram"><span class="stat-number" id="statHaram">0</span> Haram</div>
+            <div class="stat-box stat-ragu"><span class="stat-number" id="statRagu">0</span> Perlu Dikaji</div>
         </div>
     </div>
 
-    <script>
-        // ======================= DATA COIN (HARDCODE 22 COIN) =======================
-        const coinsData = [
-            { id: 1, name: "Bitcoin", symbol: "BTC", score: 85, status: "Halal", category: "Utility Token", reason: "Proof-of-work transparan, tidak mengandung riba & gharar, diakui sebagai aset digital.", fatwa: "Fatwa MUI No.117/2020 & DSN-MUI" },
-            { id: 2, name: "Ethereum", symbol: "ETH", score: 80, status: "Halal", category: "Utility Token", reason: "Smart contract produktif, mayoritas ulama menghalalkan dengan catatan hindari kontrak haram.", fatwa: "Fatwa Majelis Tarjih Muhammadiyah" },
-            { id: 3, name: "Binance Coin", symbol: "BNB", score: 75, status: "Halal", category: "Utility Token", reason: "Token ekosistem bursa, utilitas jelas & halal digunakan.", fatwa: "DSN-MUI fatwa umum kripto" },
-            { id: 4, name: "XRP", symbol: "XRP", score: 70, status: "Halal", category: "Utility Token", reason: "Sistem pembayaran lintas batas, transaksi jelas, bebas riba.", fatwa: "Pendapat ulama internasional" },
-            { id: 5, name: "Solana", symbol: "SOL", score: 78, status: "Halal", category: "Utility Token", reason: "Blockchain cepat, biaya rendah, tidak mendukung aktivitas haram dominan.", fatwa: "Kajian DSN Syariah" },
-            { id: 6, name: "Cardano", symbol: "ADA", score: 82, status: "Halal", category: "Utility Token", reason: "Penelitian akademis, proof-of-stake etis, transaksi jernih.", fatwa: "Fatwa MUI 2021" },
-            { id: 7, name: "Chainlink", symbol: "LINK", score: 76, status: "Halal", category: "Utility Token", reason: "Oracle terdesentralisasi, membantu kontrak pintar halal.", fatwa: "Fatwa umum aset digital" },
-            { id: 8, name: "Polkadot", symbol: "DOT", score: 74, status: "Halal", category: "Utility Token", reason: "Interoperabilitas blockchain, tidak mengandung unsur spekulasi berlebih.", fatwa: "Referensi DSN" },
-            { id: 9, name: "Avalanche", symbol: "AVAX", score: 77, status: "Halal", category: "Utility Token", reason: "Subnets scalable, digunakan untuk DeFi halal.", fatwa: "Fatwa DSN" },
-            { id: 10, name: "Polygon", symbol: "MATIC", score: 80, status: "Halal", category: "Utility Token", reason: "Layer2 Ethereum, mengurangi biaya & energi, mendukung ekonomi digital.", fatwa: "Fatwa MUI terkait efisiensi" },
-            { id: 11, name: "Litecoin", symbol: "LTC", score: 73, status: "Halal", category: "Utility Token", reason: "Mirip Bitcoin, pembayaran cepat, halal secara prinsip.", fatwa: "Fatwa MUI analog BTC" },
-            { id: 12, name: "Uniswap", symbol: "UNI", score: 72, status: "Halal", category: "DeFi", reason: "DEX terdesentralisasi, swap token halal, namun hindari token ribawi.", fatwa: "Masih dikaji, umumnya halal" },
-            { id: 13, name: "Aave", symbol: "AAVE", score: 68, status: "Perlu Dikaji", category: "DeFi", reason: "Protokol lending & borrowing, ada unsur bunga (riba) perlu ijtihad lebih lanjut.", fatwa: "DSN: DeFi lending perlu dikaji" },
-            { id: 14, name: "Tether", symbol: "USDT", score: 55, status: "Perlu Dikaji", category: "Stablecoin", reason: "Stablecoin terpusat, cadangan belum fully audited, potensi riba & gharar.", fatwa: "MUI: stablecoin wajib dikaji" },
-            { id: 15, name: "USD Coin", symbol: "USDC", score: 58, status: "Perlu Dikaji", category: "Stablecoin", reason: "Lebih transparan namun tetap sistem fiat based & rentan riba.", fatwa: "Perlu fatwa khusus" },
-            { id: 16, name: "Axie Infinity", symbol: "AXS", score: 45, status: "Perlu Dikaji", category: "NFT", reason: "Game play-to-earn, mengandung unsur maisir (judi) dan ketidakpastian.", fatwa: "MUI: game judi haram, masih kajian NFT" },
-            { id: 17, name: "The Sandbox", symbol: "SAND", score: 48, status: "Perlu Dikaji", category: "NFT", reason: "Virtual land & NFT game, manfaat riil belum jelas, spekulasi tinggi.", fatwa: "Perlu fatwa komprehensif" },
-            { id: 18, name: "Dogecoin", symbol: "DOGE", score: 20, status: "Haram", category: "Utility Token", reason: "Spekulasi tanpa underlying value, hype dan meme coin, mengandung gharar ekstrem.", fatwa: "Fatwa MUI: kripto spekulatif haram" },
-            { id: 19, name: "Shiba Inu", symbol: "SHIB", score: 15, status: "Haram", category: "Utility Token", reason: "Murni spekulasi, tidak ada utilitas ekonomi riil, dilarang dalam syariah.", fatwa: "Haram karena dharar & maisir" },
-            { id: 20, name: "Enjin Coin", symbol: "ENJ", score: 50, status: "Perlu Dikaji", category: "NFT", reason: "Ekonomi game NFT, potensi gharar dan riba dalam ekosistemnya.", fatwa: "Dalam kajian ulama" },
-            { id: 21, name: "VeChain", symbol: "VET", score: 72, status: "Halal", category: "Utility Token", reason: "Supply chain & logistik nyata, transparan, sangat halal manfaatnya.", fatwa: "Fatwa halal dari tim kajian" },
-            { id: 22, name: "Algorand", symbol: "ALGO", score: 76, status: "Halal", category: "Utility Token", reason: "Pure PoS, ramah lingkungan, syariah friendly & nirlaba.", fatwa: "Dukung keuangan islami" }
-        ];
+    <div class="filter-section">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="🔍 Cari coin berdasarkan nama atau simbol... (misal: Bitcoin, ETH, SOL)">
+        </div>
+        <div class="filter-group">
+            <div class="filter-buttons" id="statusFilterGroup">
+                <button data-status="all" class="status-btn active">📋 Semua</button>
+                <button data-status="Halal" class="status-btn">✅ Halal</button>
+                <button data-status="Haram" class="status-btn">❌ Haram</button>
+                <button data-status="Perlu Dikaji" class="status-btn">⚠️ Perlu Dikaji</button>
+            </div>
+            <select id="categorySelect" class="category-select">
+                <option value="all">📂 Semua Kategori</option>
+                <option value="Utility Token">⚙️ Utility Token</option>
+                <option value="DeFi">💧 DeFi</option>
+                <option value="NFT">🎨 NFT</option>
+                <option value="Stablecoin">💰 Stablecoin</option>
+            </select>
+        </div>
+    </div>
 
-        // Batas freemium: 10 coin pertama gratis (berdasarkan urutan array setelah filter)
-        const FREE_LIMIT = 10;
+    <div class="stats-info">
+        <span>📊 Menampilkan <span id="displayCount">0</span> coin gratis dari <span id="totalFiltered">0</span> hasil</span>
+        <span>✨ <strong>10 coin gratis</strong> — Premium Rp149.000/bulan</span>
+    </div>
 
-        // Cache logo untuk meminimalisir API calls
-        const logoCache = {};
+    <div id="coinsContainer" class="coins-grid"></div>
 
-        // DOM elements
-        const searchInput = document.getElementById('searchInput');
-        const categorySelect = document.getElementById('categorySelect');
-        const coinsContainer = document.getElementById('coinsContainer');
-        const displayCountSpan = document.getElementById('displayCount');
-        const totalFilteredSpan = document.getElementById('totalFiltered');
-        const premiumModal = document.getElementById('premiumModal');
+    <footer>⚖️ Berdasarkan prinsip syariah & referensi fatwa DSN-MUI No.117/2020, fatwa Muhammadiyah. Bukan nasihat keuangan. Selalu konsultasi dengan ahli.</footer>
+</div>
 
-        // status aktif
-        let activeStatus = 'all';   // 'all', 'Halal', 'Haram', 'Perlu Dikaji'
+<!-- Modal Premium -->
+<div id="premiumModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <div class="modal-title">💎 Akses Premium</div>
+        <div class="modal-desc">Buka akses penuh ke seluruh coin, analisa mendalam, dan sinyal trading sesuai syariah.</div>
+        <ul class="modal-benefits">
+            <li><span>✅</span> Akses semua 22+ coin yang terkunci</li>
+            <li><span>✅</span> Analisis Fundamental & Fatwa Detail</li>
+            <li><span>✅</span> Update database coin setiap bulan</li>
+            <li><span>✅</span> Konsultasi Portofolio Eksklusif</li>
+        </ul>
+        <div class="modal-price">Rp 149.000 <span>/ bulan</span></div>
+        <button class="subscribe-btn" id="subscribeBtn">Langganan Sekarang 🚀</button>
+    </div>
+</div>
 
-        // Hitung dan update statistik di header
-        function updateHeaderStats() {
-            const halalCount = coinsData.filter(c => c.status === 'Halal').length;
-            const haramCount = coinsData.filter(c => c.status === 'Haram').length;
-            const raguCount = coinsData.filter(c => c.status === 'Perlu Dikaji').length;
-            
-            document.getElementById('statHalal').innerText = halalCount;
-            document.getElementById('statHaram').innerText = haramCount;
-            document.getElementById('statRagu').innerText = raguCount;
+<script>
+    // ============================================================
+    // DATA COIN — ID 1-10 = GRATIS, ID 11+ = PREMIUM (FIXED)
+    // Ini TIDAK berubah meskipun filter apapun dipakai
+    // ============================================================
+    const FREE_IDS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+    const coinsData = [
+        { id:1,  name:"Bitcoin",      symbol:"BTC",  score:85, status:"Halal",        category:"Utility Token", reason:"Proof-of-work transparan, tidak mengandung riba & gharar, diakui sebagai aset digital.",                   fatwa:"Fatwa MUI No.117/2020 & DSN-MUI" },
+        { id:2,  name:"Ethereum",     symbol:"ETH",  score:80, status:"Halal",        category:"Utility Token", reason:"Smart contract produktif, mayoritas ulama menghalalkan dengan catatan hindari kontrak haram.",              fatwa:"Fatwa Majelis Tarjih Muhammadiyah" },
+        { id:3,  name:"BNB",          symbol:"BNB",  score:75, status:"Halal",        category:"Utility Token", reason:"Token ekosistem bursa, utilitas jelas & halal digunakan.",                                                 fatwa:"DSN-MUI fatwa umum kripto" },
+        { id:4,  name:"XRP",          symbol:"XRP",  score:70, status:"Halal",        category:"Utility Token", reason:"Sistem pembayaran lintas batas, transaksi jelas, bebas riba.",                                            fatwa:"Pendapat ulama internasional" },
+        { id:5,  name:"Solana",       symbol:"SOL",  score:78, status:"Halal",        category:"Utility Token", reason:"Blockchain cepat, biaya rendah, tidak mendukung aktivitas haram dominan.",                                fatwa:"Kajian DSN Syariah" },
+        { id:6,  name:"Cardano",      symbol:"ADA",  score:82, status:"Halal",        category:"Utility Token", reason:"Penelitian akademis, proof-of-stake etis, transaksi jernih.",                                             fatwa:"Fatwa MUI 2021" },
+        { id:7,  name:"Chainlink",    symbol:"LINK", score:76, status:"Halal",        category:"Utility Token", reason:"Oracle terdesentralisasi, membantu kontrak pintar halal.",                                                fatwa:"Fatwa umum aset digital" },
+        { id:8,  name:"Polkadot",     symbol:"DOT",  score:74, status:"Halal",        category:"Utility Token", reason:"Interoperabilitas blockchain, tidak mengandung unsur spekulasi berlebih.",                                fatwa:"Referensi DSN" },
+        { id:9,  name:"Avalanche",    symbol:"AVAX", score:77, status:"Halal",        category:"Utility Token", reason:"Subnets scalable, digunakan untuk DeFi halal.",                                                           fatwa:"Fatwa DSN" },
+        { id:10, name:"Polygon",      symbol:"MATIC",score:80, status:"Halal",        category:"Utility Token", reason:"Layer2 Ethereum, mengurangi biaya & energi, mendukung ekonomi digital.",                                  fatwa:"Fatwa MUI terkait efisiensi" },
+        { id:11, name:"Litecoin",     symbol:"LTC",  score:73, status:"Halal",        category:"Utility Token", reason:"Mirip Bitcoin, pembayaran cepat, halal secara prinsip.",                                                  fatwa:"Fatwa MUI analog BTC" },
+        { id:12, name:"Uniswap",      symbol:"UNI",  score:72, status:"Halal",        category:"DeFi",          reason:"DEX terdesentralisasi, swap token halal, namun hindari token ribawi.",                                    fatwa:"Masih dikaji, umumnya halal" },
+        { id:13, name:"Aave",         symbol:"AAVE", score:68, status:"Perlu Dikaji", category:"DeFi",          reason:"Protokol lending & borrowing, ada unsur bunga (riba) perlu ijtihad lebih lanjut.",                        fatwa:"DSN: DeFi lending perlu dikaji" },
+        { id:14, name:"Tether",       symbol:"USDT", score:55, status:"Perlu Dikaji", category:"Stablecoin",    reason:"Stablecoin terpusat, cadangan belum fully audited, potensi riba & gharar.",                               fatwa:"MUI: stablecoin wajib dikaji" },
+        { id:15, name:"USD Coin",     symbol:"USDC", score:58, status:"Perlu Dikaji", category:"Stablecoin",    reason:"Lebih transparan namun tetap sistem fiat based & rentan riba.",                                            fatwa:"Perlu fatwa khusus" },
+        { id:16, name:"Axie Infinity",symbol:"AXS",  score:45, status:"Perlu Dikaji", category:"NFT",           reason:"Game play-to-earn, mengandung unsur maisir (judi) dan ketidakpastian.",                                   fatwa:"MUI: game judi haram, masih kajian NFT" },
+        { id:17, name:"The Sandbox",  symbol:"SAND", score:48, status:"Perlu Dikaji", category:"NFT",           reason:"Virtual land & NFT game, manfaat riil belum jelas, spekulasi tinggi.",                                    fatwa:"Perlu fatwa komprehensif" },
+        { id:18, name:"Dogecoin",     symbol:"DOGE", score:20, status:"Haram",        category:"Utility Token", reason:"Spekulasi tanpa underlying value, hype dan meme coin, mengandung gharar ekstrem.",                         fatwa:"Fatwa MUI: kripto spekulatif haram" },
+        { id:19, name:"Shiba Inu",    symbol:"SHIB", score:15, status:"Haram",        category:"Utility Token", reason:"Murni spekulasi, tidak ada utilitas ekonomi riil, dilarang dalam syariah.",                               fatwa:"Haram karena dharar & maisir" },
+        { id:20, name:"Enjin Coin",   symbol:"ENJ",  score:50, status:"Perlu Dikaji", category:"NFT",           reason:"Ekonomi game NFT, potensi gharar dan riba dalam ekosistemnya.",                                           fatwa:"Dalam kajian ulama" },
+        { id:21, name:"VeChain",      symbol:"VET",  score:72, status:"Halal",        category:"Utility Token", reason:"Supply chain & logistik nyata, transparan, sangat halal manfaatnya.",                                     fatwa:"Fatwa halal dari tim kajian" },
+        { id:22, name:"Algorand",     symbol:"ALGO", score:76, status:"Halal",        category:"Utility Token", reason:"Pure PoS, ramah lingkungan, syariah friendly & nirlaba.",                                                 fatwa:"Dukung keuangan islami" }
+    ];
+
+    // Link Trakteer/Gumroad lo — ganti ini nanti
+    const PAYMENT_LINK = "#";
+
+    const logoCache = {};
+
+    async function loadCoinLogo(symbol, elementId) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        if (logoCache[symbol]) {
+            el.innerHTML = `<img src="${logoCache[symbol]}" alt="${symbol}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+            return;
         }
-
-        // Fungsi fetch Logo API
-        async function loadCoinLogo(symbol, elementId) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-
-            // Cek di cache memori
-            if (logoCache[symbol]) {
-                el.innerHTML = `<img src="${logoCache[symbol]}" alt="${symbol}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                return;
-            }
-
-            try {
-                // Fetch CoinGecko Search API
-                const res = await fetch(`https://api.coingecko.com/api/v3/search?query=${symbol}`);
-                if (!res.ok) throw new Error('Rate limit API tercapai');
-                const data = await res.json();
-                
-                // Cari yang paling relevan bersadarkan simbol
-                const coin = data.coins.find(c => c.symbol.toLowerCase() === symbol.toLowerCase());
-                
-                if (coin && coin.large) {
-                    logoCache[symbol] = coin.large;
-                    el.innerHTML = `<img src="${coin.large}" alt="${symbol}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-                } else {
-                    throw new Error('Coin tidak ditemukan');
-                }
-            } catch (error) {
-                // Fallback jika API limit / gagal, gunakan coincap API icon
-                const fallbackUrl = `https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`;
-                logoCache[symbol] = fallbackUrl;
-                el.innerHTML = `<img src="${fallbackUrl}" alt="${symbol}" onerror="this.onerror=null; this.parentElement.innerHTML='${symbol.charAt(0)}'" style="width:100%;height:100%;border-radius:50%;object-fit:cover; background:#1C2A1C;">`;
-            }
+        try {
+            const fallbackUrl = `https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`;
+            logoCache[symbol] = fallbackUrl;
+            el.innerHTML = `<img src="${fallbackUrl}" alt="${symbol}" onerror="this.parentElement.innerHTML='${symbol.charAt(0)}'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+        } catch(e) {
+            el.innerHTML = symbol.charAt(0);
         }
+    }
 
-        // Modal Control
-        function showModal() {
-            premiumModal.classList.add('show');
-        }
+    function updateHeaderStats() {
+        document.getElementById('statHalal').innerText = coinsData.filter(c => c.status === 'Halal').length;
+        document.getElementById('statHaram').innerText = coinsData.filter(c => c.status === 'Haram').length;
+        document.getElementById('statRagu').innerText  = coinsData.filter(c => c.status === 'Perlu Dikaji').length;
+    }
 
-        function hideModal() {
-            premiumModal.classList.remove('show');
-        }
+    function showModal() { document.getElementById('premiumModal').classList.add('show'); }
+    function hideModal() { document.getElementById('premiumModal').classList.remove('show'); }
 
-        document.getElementById('closeModalBtn').addEventListener('click', hideModal);
-        window.addEventListener('click', (e) => {
-            if (e.target === premiumModal) hideModal();
-        });
+    document.getElementById('closeModalBtn').addEventListener('click', hideModal);
+    document.getElementById('premiumModal').addEventListener('click', (e) => { if (e.target === document.getElementById('premiumModal')) hideModal(); });
+    document.getElementById('subscribeBtn').addEventListener('click', () => { window.open(PAYMENT_LINK, '_blank'); });
 
-        // helper: fungsi untuk menentukan warna score
-        function getScoreColorClass(score) {
-            if (score >= 70) return 'score-green';
-            if (score >= 40) return 'score-yellow';
-            return 'score-red';
-        }
+    function getScoreColorClass(score) {
+        if (score >= 70) return 'score-green';
+        if (score >= 40) return 'score-yellow';
+        return 'score-red';
+    }
 
-        // badge status HTML + class
-        function getStatusBadge(status) {
-            if (status === 'Halal') return '<span class="badge-status badge-halal">✅ Halal</span>';
-            if (status === 'Haram') return '<span class="badge-status badge-haram">❌ Haram</span>';
-            return '<span class="badge-status badge-ragu">⚠️ Perlu Dikaji</span>';
-        }
+    function getStatusBadge(status) {
+        if (status === 'Halal') return '<span class="badge-status badge-halal">✅ Halal</span>';
+        if (status === 'Haram') return '<span class="badge-status badge-haram">❌ Haram</span>';
+        return '<span class="badge-status badge-ragu">⚠️ Perlu Dikaji</span>';
+    }
 
-        // membuat card coin (element) dengan atau tanpa premium lock
-        function createCoinCard(coin, indexInFiltered, isLocked) {
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'coin-card';
-            
-            // animasi delay bertingkat
-            cardDiv.style.animationDelay = `${indexInFiltered * 0.08}s`;
+    function createCoinCard(coin, animationIndex, isLocked) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'coin-card' + (isLocked ? ' locked' : '');
+        cardDiv.style.animationDelay = `${animationIndex * 0.07}s`;
 
-            if (isLocked) cardDiv.classList.add('locked');
+        const logoId = `logo-${coin.id}`;
+        const scoreColor = getScoreColorClass(coin.score);
 
-            // konten utama card
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'card-content';
-
-            // logo placeholder awal (akan direplace dengan API fetch nanti)
-            const logoInitial = coin.symbol.charAt(0);
-            const scoreColor = getScoreColorClass(coin.score);
-            const logoId = `logo-${coin.symbol}-${indexInFiltered}`;
-
-            contentDiv.innerHTML = `
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+        contentDiv.innerHTML = `
             <div class="card-header">
-                <div class="coin-logo" id="${logoId}">${logoInitial}</div>
+                <div class="coin-logo" id="${logoId}">${coin.symbol.charAt(0)}</div>
                 <div class="coin-info">
-                    <h3>${coin.name} <span style="font-weight:500; font-size:0.8rem;">(${coin.symbol})</span></h3>
+                    <h3>${coin.name} <span style="font-weight:500;font-size:0.8rem;">(${coin.symbol})</span></h3>
                     <span class="coin-symbol">${coin.category}</span>
                 </div>
             </div>
             <div class="score-badge">
-                <span class="halal-score ${scoreColor}">📊 Halal Score: ${coin.score}/100</span>
+                <span class="halal-score ${scoreColor}">📊 Score: ${coin.score}/100</span>
                 ${getStatusBadge(coin.status)}
             </div>
-            <div class="category-chip">🏷️ Kategori: ${coin.category}</div>
+            <div class="category-chip">🏷️ ${coin.category}</div>
             <div class="reason-text">📌 ${coin.reason}</div>
-            <div class="fatwa-ref">📖 Fatwa: ${coin.fatwa}</div>
+            <div class="fatwa-ref">📖 ${coin.fatwa}</div>
         `;
+        cardDiv.appendChild(contentDiv);
 
-            cardDiv.appendChild(contentDiv);
-
-            // jika premium lock, tambahkan overlay dengan tombol upgrade
-            if (isLocked) {
-                const overlay = document.createElement('div');
-                overlay.className = 'premium-overlay';
-                overlay.innerHTML = `
-                <div class="premium-text">🔒 Premium Content</div>
+        if (isLocked) {
+            const overlay = document.createElement('div');
+            overlay.className = 'premium-overlay';
+            overlay.innerHTML = `
+                <div class="premium-text">🔒 Konten Premium</div>
                 <button class="premium-btn">✨ Upgrade Premium ✨<br><span style="font-size:0.7rem;">Rp149.000/bulan</span></button>
-                <div style="font-size:0.65rem; color:#ccc;">Akses semua coin & analisa lengkap</div>
+                <div style="font-size:0.65rem;color:#ccc;">Akses semua coin & analisa lengkap</div>
             `;
-                const upgradeBtn = overlay.querySelector('.premium-btn');
-                upgradeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    showModal();
-                });
-                cardDiv.appendChild(overlay);
-            }
-
-            return cardDiv;
-        }
-
-        // Filter dan render utama
-        function renderCoins() {
-            // 1. ambil nilai search & filter
-            const searchTerm = searchInput.value.trim().toLowerCase();
-            const categoryValue = categorySelect.value;
-
-            // 2. filter berdasarkan search (nama atau simbol)
-            let filtered = coinsData.filter(coin =>
-                coin.name.toLowerCase().includes(searchTerm) ||
-                coin.symbol.toLowerCase().includes(searchTerm)
-            );
-
-            // 3. filter berdasarkan status (Halal/Haram/Perlu Dikaji)
-            if (activeStatus !== 'all') {
-                filtered = filtered.filter(coin => coin.status === activeStatus);
-            }
-
-            // 4. filter berdasarkan kategori (jika bukan 'all')
-            if (categoryValue !== 'all') {
-                filtered = filtered.filter(coin => coin.category === categoryValue);
-            }
-
-            // update total filtered count
-            const totalFiltered = filtered.length;
-            totalFilteredSpan.innerText = totalFiltered;
-
-            // bersihkan container
-            coinsContainer.innerHTML = '';
-
-            if (filtered.length === 0) {
-                coinsContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; background:#111A11; border-radius:2rem;">🔍 Tidak ada coin yang sesuai dengan kriteria syariah mu. Coba kata kunci lain.</div>`;
-                displayCountSpan.innerText = '0';
-                return;
-            }
-
-            // freemium logic: ID 1-10 gratis, sisanya locked
-            let lockedCount = 0;
-            let visibleFreeCount = 0;
-
-            // loop untuk membuat card
-            filtered.forEach((coin, idx) => {
-                const isLocked = coin.id > FREE_LIMIT;
-                if (isLocked) {
-                    lockedCount++;
-                } else {
-                    visibleFreeCount++;
-                }
-                const cardElement = createCoinCard(coin, idx, isLocked);
-                coinsContainer.appendChild(cardElement);
-
-                // Load API logo secara asynchronous
-                loadCoinLogo(coin.symbol, `logo-${coin.symbol}-${idx}`);
+            overlay.querySelector('.premium-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                showModal();
             });
-
-            displayCountSpan.innerText = visibleFreeCount;  
-
-            // tambahkan catatan kecil jika ada coin premium terkunci
-            if (lockedCount > 0) {
-                const premiumNote = document.createElement('div');
-                premiumNote.style.gridColumn = '1/-1';
-                premiumNote.style.textAlign = 'center';
-                premiumNote.style.marginTop = '1rem';
-                premiumNote.style.fontSize = '0.8rem';
-                premiumNote.style.backgroundColor = '#1B231B';
-                premiumNote.style.padding = '10px';
-                premiumNote.style.borderRadius = '60px';
-                premiumNote.style.border = '1px solid #D4AF37';
-                premiumNote.innerHTML = `🔔 ${lockedCount} coin tambahan terkunci. ✨ <a href="#" onclick="showModal()" style="color:#D4AF37; font-weight:bold; text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh & analisis mendalam.`;
-                coinsContainer.appendChild(premiumNote);
-            }
+            cardDiv.appendChild(overlay);
         }
 
-        // Event listeners untuk status filter (tombol-tombol)
-        function initStatusButtons() {
-            const btns = document.querySelectorAll('.status-btn');
-            btns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const statusValue = btn.getAttribute('data-status');
-                    // update class active
-                    btns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    if (statusValue === 'all') {
-                        activeStatus = 'all';
-                    } else {
-                        activeStatus = statusValue;
-                    }
-                    renderCoins();
-                });
-            });
+        return cardDiv;
+    }
+
+    let activeStatus = 'all';
+
+    function renderCoins() {
+        const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+        const categoryValue = document.getElementById('categorySelect').value;
+
+        let filtered = coinsData.filter(coin =>
+            coin.name.toLowerCase().includes(searchTerm) ||
+            coin.symbol.toLowerCase().includes(searchTerm)
+        );
+
+        if (activeStatus !== 'all') filtered = filtered.filter(c => c.status === activeStatus);
+        if (categoryValue !== 'all') filtered = filtered.filter(c => c.category === categoryValue);
+
+        document.getElementById('totalFiltered').innerText = filtered.length;
+        document.getElementById('coinsContainer').innerHTML = '';
+
+        if (filtered.length === 0) {
+            document.getElementById('coinsContainer').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;background:#111A11;border-radius:2rem;">🔍 Tidak ada coin yang sesuai. Coba kata kunci lain.</div>`;
+            document.getElementById('displayCount').innerText = '0';
+            return;
         }
 
-        // event listener untuk kategori
-        categorySelect.addEventListener('change', () => {
-            renderCoins();
+        let freeCount = 0;
+        let lockedCount = 0;
+
+        filtered.forEach((coin, idx) => {
+            // ✅ LOCK berdasarkan ID FIXED — tidak berubah meskipun difilter
+            const isLocked = !FREE_IDS.has(coin.id);
+            if (isLocked) lockedCount++;
+            else freeCount++;
+
+            const card = createCoinCard(coin, idx, isLocked);
+            document.getElementById('coinsContainer').appendChild(card);
+            loadCoinLogo(coin.symbol, `logo-${coin.id}`);
         });
 
-        searchInput.addEventListener('input', () => {
+        document.getElementById('displayCount').innerText = freeCount;
+
+        if (lockedCount > 0) {
+            const note = document.createElement('div');
+            note.style.cssText = 'grid-column:1/-1;text-align:center;margin-top:1rem;font-size:0.8rem;background:#1B231B;padding:10px;border-radius:60px;border:1px solid #D4AF37;';
+            note.innerHTML = `🔔 ${lockedCount} coin terkunci. <a href="#" onclick="showModal();return false;" style="color:#D4AF37;font-weight:bold;text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh.`;
+            document.getElementById('coinsContainer').appendChild(note);
+        }
+    }
+
+    document.querySelectorAll('.status-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeStatus = btn.getAttribute('data-status');
             renderCoins();
         });
+    });
 
-        // inisialisasi
-        function init() {
-            updateHeaderStats();
-            initStatusButtons();
-            renderCoins();
-        }
+    document.getElementById('categorySelect').addEventListener('change', renderCoins);
+    document.getElementById('searchInput').addEventListener('input', renderCoins);
 
-        // Mulaikan program saat window terload
-        window.addEventListener('DOMContentLoaded', init);
-    </script>
+    window.addEventListener('DOMContentLoaded', () => {
+        updateHeaderStats();
+        renderCoins();
+    });
+</script>
 </body>
-
 </html>
