@@ -314,7 +314,7 @@
         if (lockedCount > 0) {
             const note = document.createElement('div');
             note.style.cssText = 'grid-column:1/-1;text-align:center;margin-top:1rem;font-size:0.8rem;background:#1B231B;padding:10px;border-radius:60px;border:1px solid #D4AF37;';
-            note.innerHTML = `🔔 ${lockedCount} coin terkunci. <a href="#" onclick="showModal();return false;" style="color:#D4AF37;font-weight:bold;text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh.`;
+            note.innerHTML = `🔔 ${lockedCount} coin terkunci. <a href="javascript:void(0)" onclick="showModal();return false;" style="color:#D4AF37;font-weight:bold;text-decoration:none;">Upgrade Premium Rp149.000/bulan</a> untuk akses penuh.`;
             document.getElementById('coinsContainer').appendChild(note);
         }
     }
